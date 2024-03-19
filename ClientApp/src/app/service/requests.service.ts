@@ -7,8 +7,13 @@ import { Injectable } from '@angular/core';
 export class RequestService {
  constructor(private http: HttpClient) { }
 
- savePolygon(polygonPoints: { x: number; y: number }[], point: {x:number,y:number}) {
+ checkPointInsidePolygon(polygonPoints: { x: number; y: number }[], point: {x:number,y:number}) {
     const body = { polygon: polygonPoints,  point: point};
-    return this.http.post('http://your-server-url/api/polygons', body);
+    return this.http.post('https://localhost:7124/Polygon/CheckPointInsidePolygon', body);
  }
+
+ savePolygon(polygonPoints: { x: number; y: number }[]) {
+  const body = { points: polygonPoints };
+  return this.http.post('https://localhost:7124/Polygon/SavePolygon', body);
+}
 }
