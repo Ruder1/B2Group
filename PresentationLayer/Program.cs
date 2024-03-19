@@ -32,7 +32,7 @@ namespace PresentationLayer
             builder.Services.AddDbContext<PolygonContext>
             (options =>
             {
-                options.UseNpgsql(connection, b => b.MigrationsAssembly("DAL"));
+                options.UseNpgsql(connection, b => b.MigrationsAssembly("DataLayer"));
 
             });
 
