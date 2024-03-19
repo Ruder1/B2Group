@@ -6,6 +6,7 @@ using DataLayer.Entities;
 using DataLayer.Interfaces;
 using DataLayer.Repository;
 using Microsoft.EntityFrameworkCore;
+using PresentationLayer.Middlewares;
 using PresentationLayer.Services;
 
 namespace PresentationLayer
@@ -52,6 +53,8 @@ namespace PresentationLayer
             });
 
             var app = builder.Build();
+
+            app.UseMiddleware<ErrorHandlerMiddleware>();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

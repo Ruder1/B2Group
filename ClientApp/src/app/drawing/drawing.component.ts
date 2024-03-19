@@ -106,9 +106,11 @@ export class DrawingComponent implements AfterViewInit {
     );
   }
 
-  savePolygon()
-  {
-    
+  savePolygon() {
+    this.requestService.savePolygon(this.polygon).subscribe(
+      (response) => console.log('Polygon saved successfully', response),
+      (error) => console.error('Error saving polygon', error)
+    );
   }
 
   startDrawingPolygon() {
