@@ -1,3 +1,7 @@
+using AutoMapper;
+using BuisnessLayer.Interfaces;
+using BuisnessLayer.Services;
+using PresentationLayer.Services;
 
 namespace PresentationLayer
 {
@@ -13,6 +17,11 @@ namespace PresentationLayer
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddScoped<IPolygonService, PolygonService>();
+
+            var mapperConfig = new MapperConfiguration(mc => mc.AddProfile(new MappingProfile()));
+            IMapper mapper = mapperConfig.CreateMapper();
+            builder.Services.AddSingleton(mapper);
 
             builder.Services.AddCors(options =>
             {

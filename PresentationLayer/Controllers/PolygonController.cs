@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using BuisnessLayer.Interfaces;
+using BuisnessLayer.Models;
+using Microsoft.AspNetCore.Mvc;
 using PresentationLayer.Models;
 
 namespace PresentationLayer.Controllers
@@ -8,9 +11,14 @@ namespace PresentationLayer.Controllers
     public class PolygonController : ControllerBase
     {
         private readonly ILogger<PolygonController> _logger;
-        public PolygonController(ILogger<PolygonController> logger)
+        private readonly IPolygonService _polygonService;
+        private readonly IMapper _mapper;
+
+        public PolygonController(ILogger<PolygonController> logger, IPolygonService polygonService, IMapper mapper)
         {
             _logger = logger;
+            _polygonService = polygonService;
+            _mapper = mapper;
         }
 
         [HttpPost]
@@ -27,7 +35,9 @@ namespace PresentationLayer.Controllers
                 return BadRequest("Небходимо задать полигон");
             }
 
-            var result = new Service().IsPointInside(model.Point, model.Polygon);
+            var modelDto = _mapper.Map<PointAndPolygonViewModel,PointAndPolygonDTO>(model);
+
+            var result = _polygonService.IsPointInside(modelDto.Point, modelDto.Polygon);
             return Ok(result);
         }
     }

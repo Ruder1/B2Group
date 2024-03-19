@@ -1,11 +1,16 @@
-﻿using PresentationLayer.Models;
-using System.Drawing;
+﻿using BuisnessLayer.Interfaces;
+using BuisnessLayer.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace PresentationLayer
+namespace BuisnessLayer.Services
 {
-    public class Service
+    public class PolygonService : IPolygonService
     {
-        public bool IsPointInside(PointViewModel point, List<PointViewModel> polygon)
+        public bool IsPointInside(PointDTO point, List<PointDTO> polygon)
         {
             bool isInside = false;
             for (int i = 0, j = polygon.Count - 1; i < polygon.Count; j = i++)
