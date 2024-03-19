@@ -1,4 +1,11 @@
 <!-- drawing.component.html -->
-<canvas #myCanvas width="500" height="500" style="border:1px solid #d3d3d3;">
-    Ваш браузер не поддерживает элемент canvas.
-   </canvas>
+<canvas #myCanvas width="500" height="500" style="border: 1px solid #d3d3d3">
+  Ваш браузер не поддерживает элемент canvas.
+</canvas>
+
+<button (click)="clearCanvas()">Очистить</button>
+
+<button (click)="savePolygon()">Сохранить полигон</button>
+
+<button (click)="startDrawingPolygon()">Начать рисовать полигон</button>
+<button (click)="startDrawingPoint()">Начать рисовать точку</button>
