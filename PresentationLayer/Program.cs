@@ -1,6 +1,11 @@
 using AutoMapper;
 using BuisnessLayer.Interfaces;
 using BuisnessLayer.Services;
+using DataLayer.EfContext;
+using DataLayer.Entities;
+using DataLayer.Interfaces;
+using DataLayer.Repository;
+using Microsoft.EntityFrameworkCore;
 using PresentationLayer.Services;
 
 namespace PresentationLayer
@@ -22,6 +27,17 @@ namespace PresentationLayer
             var mapperConfig = new MapperConfiguration(mc => mc.AddProfile(new MappingProfile()));
             IMapper mapper = mapperConfig.CreateMapper();
             builder.Services.AddSingleton(mapper);
+
+            var connection = builder.Configuration.GetConnectionString("B2Group");
+            builder.Services.AddDbContext<PolygonContext>
+            (options =>
+            {
+                options.UseNpgsql(connection, b => b.MigrationsAssembly("DAL"));
+
+            });
+
+            builder.Services.AddTransient<IRepository<Polygon>,PolygonRepository>();
+            builder.Services.AddTransient<IUnitOfWork,EfUnitOfWork>();
 
             builder.Services.AddCors(options =>
             {

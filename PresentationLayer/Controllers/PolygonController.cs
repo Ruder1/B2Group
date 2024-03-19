@@ -2,6 +2,7 @@
 using BuisnessLayer.Interfaces;
 using BuisnessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
+using NpgsqlTypes;
 using PresentationLayer.Models;
 
 namespace PresentationLayer.Controllers
