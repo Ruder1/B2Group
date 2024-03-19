@@ -14,10 +14,12 @@ export class DrawingComponent implements AfterViewInit {
   drawingPolygon = false;
   drawingPoint = false;
   polygon: { x: number; y: number }[] = [];
-  point: { x: number; y: number };
+  point: { x: number; y: number} ={
+    x: 0,
+    y: 0
+  };
 
   constructor(private requestService: RequestService) {
-    this.point = { x: 0, y: 0 };
   }
 
   ngAfterViewInit() {
@@ -91,16 +93,22 @@ export class DrawingComponent implements AfterViewInit {
       this.canvasRef.nativeElement.height
     );
     this.polygon = []; // Очищаем массив точек
+    this.point = { x: 0, y: 0 };
   }
 
-  savePolygon() {
+  checkPointInsidePolygon() {
     console.log(this.polygon);
     console.log(this.point)
 
-    this.requestService.savePolygon(this.polygon,this.point).subscribe(
-      (response) => console.log('Polygon saved successfully', response),
-      (error) => console.error('Error saving polygon', error)
+    this.requestService.checkPointInsidePolygon(this.polygon,this.point).subscribe(
+      (response) => console.log('Is Point inside Polygon checked successfully', response),
+      (error) => console.error('Error checking is Point inside Polygon', error)
     );
+  }
+
+  savePolygon()
+  {
+    
   }
 
   startDrawingPolygon() {
