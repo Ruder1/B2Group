@@ -23,6 +23,7 @@ namespace PresentationLayer
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<IPolygonService, PolygonService>();
+            builder.Services.AddScoped<IStorageService, StorageService>();
 
             var mapperConfig = new MapperConfiguration(mc => mc.AddProfile(new MappingProfile()));
             IMapper mapper = mapperConfig.CreateMapper();
