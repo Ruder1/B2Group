@@ -12,6 +12,8 @@ namespace BuisnessLayer.Models
         [JsonIgnore]
         public int Id { get; set; }
 
+        public string Name { get; set; }
+
         public List<PointDTO> Points { get; set; }
     }
 }

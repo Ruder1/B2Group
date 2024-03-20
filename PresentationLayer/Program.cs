@@ -25,6 +25,7 @@ namespace PresentationLayer
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<IPolygonService, PolygonService>();
             builder.Services.AddScoped<IStorageService, StorageService>();
+            builder.Services.AddTransient<ErrorHandlerMiddleware>();
 
             var mapperConfig = new MapperConfiguration(mc => mc.AddProfile(new MappingProfile()));
             IMapper mapper = mapperConfig.CreateMapper();
