@@ -14,8 +14,8 @@ export class RequestService {
     return this.http.post('https://localhost:7124/Polygon/CheckPointInsidePolygon', body);
  }
 
- savePolygon(polygonPoints: Point[]) {
-  const body = { points: polygonPoints };
+ savePolygon(polygonPoints: Point[], polygonName: string) {
+  const body = { points: polygonPoints, name: polygonName };
   return this.http.post('https://localhost:7124/Polygon/SavePolygon', body);
 }
 

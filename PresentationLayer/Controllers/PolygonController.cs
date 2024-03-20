@@ -47,7 +47,7 @@ namespace PresentationLayer.Controllers
         {
             var polygonDto = _mapper.Map<PolygonViewModel, PolygonDTO>(polygon);
             _storageService.SavePolygon(polygonDto);
-            return Ok("Полигон сохранен");
+            return Ok();
         }
 
         [HttpPost]

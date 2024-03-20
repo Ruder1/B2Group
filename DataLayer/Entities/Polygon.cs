@@ -11,6 +11,7 @@ namespace DataLayer.Entities
     {
         [Key]
         public int Id { get; set; }
+        public string Name { get; set; }
 
         public string Points {  get; set; }
     }

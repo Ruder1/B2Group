@@ -19,6 +19,7 @@ export class DrawingComponent implements AfterViewInit, OnInit {
   point: Point ={x: 0,y: 0};
   isPointInsidePolygon: boolean = false;
 
+
   constructor(private requestService: RequestService) {
   }
 
@@ -122,11 +123,23 @@ export class DrawingComponent implements AfterViewInit, OnInit {
   }
 
   savePolygon() {
-    this.requestService.savePolygon(this.polygon).subscribe(
-      (response) => console.log('Polygon saved successfully', response),
+    let name = this.generateRandomPolygonName();
+    console.log(name)
+    this.requestService.savePolygon(this.polygon,name).subscribe(
+      (response:any) => console.log('Polygon saved successfully', response),
       (error) => console.error('Error saving polygon', error)
     );
   }
+
+  generateRandomPolygonName(): string {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    const length = 10; // Длина случайного имени
+    for (let i = 0; i < length; i++) {
+       result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+   }
 
   startDrawingPolygon() {
     this.drawingPolygon = true;

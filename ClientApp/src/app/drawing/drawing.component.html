@@ -12,7 +12,7 @@
 <button (click)="startDrawingPoint()">Начать рисовать точку</button>
 
 <select (change)="onPolygonSelect($event)">
-    <option *ngFor="let polygon of polygons" [value]="polygon.id">{{polygon.points[0].x}}</option>
+    <option *ngFor="let polygon of polygons" [value]="polygon.id">{{polygon.name}}</option>
    </select>
 
    <p *ngIf="isPointInsidePolygon !== undefined">

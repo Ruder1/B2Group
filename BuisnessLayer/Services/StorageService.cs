@@ -18,8 +18,8 @@ namespace BuisnessLayer.Services
 
         public void SavePolygon(PolygonDTO polygon)
         {
-            var temp = JsonSerializer.Serialize(polygon);
-            var test = new Polygon() { Points = temp };
+            var temp = JsonSerializer.Serialize(polygon.Points);
+            var test = new Polygon() {Name = polygon.Name,Points = temp };
             _unitOfWork.Polygons.Create(test);
         }
 
@@ -29,11 +29,12 @@ namespace BuisnessLayer.Services
             var polygonsDto = new List<PolygonDTO>();
             foreach (var polygon in polygons)
             {
-                var temp = JsonSerializer.Deserialize<PolygonDTO>(polygon.Points);
+                var temp = JsonSerializer.Deserialize<List<PointDTO>>(polygon.Points);
                 polygonsDto.Add(new PolygonDTO()
                 { 
                     Id = polygon.Id,
-                    Points = temp.Points
+                    Name = polygon.Name,
+                    Points = temp
                 });
             }
             return polygonsDto;
@@ -42,11 +43,12 @@ namespace BuisnessLayer.Services
         public PolygonDTO GetPolygonById(int Id)
         {
             var polygon = _unitOfWork.Polygons.Get(Id);
-            var temp = JsonSerializer.Deserialize<PolygonDTO>(polygon.Points);
+            var temp = JsonSerializer.Deserialize<List<PointDTO>>(polygon.Points);
             var polygonDto = new PolygonDTO() 
             {
                 Id = polygon.Id,
-                Points = temp.Points 
+                Name = polygon.Name,
+                Points = temp 
             };
             return polygonDto;
         }
