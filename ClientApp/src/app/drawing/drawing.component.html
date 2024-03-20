@@ -10,3 +10,11 @@
 
 <button (click)="startDrawingPolygon()">Начать рисовать полигон</button>
 <button (click)="startDrawingPoint()">Начать рисовать точку</button>
+
+<select (change)="onPolygonSelect($event)">
+    <option *ngFor="let polygon of polygons" [value]="polygon.id">{{polygon.points[0].x}}</option>
+   </select>
+
+   <p *ngIf="isPointInsidePolygon !== undefined">
+    Точка {{ isPointInsidePolygon ? 'входит' : 'не входит' }} в полигон.
+   </p>

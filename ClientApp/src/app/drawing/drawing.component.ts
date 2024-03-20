@@ -1,26 +1,38 @@
 // drawing.component.ts
-import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, OnInit } from '@angular/core';
 import { RequestService } from '../service/requests.service';
+import { Point, Polygon } from '../models/polygon.model';
 
 @Component({
   selector: 'app-drawing',
   templateUrl: './drawing.component.html',
   styleUrls: ['./drawing.component.css'],
 })
-export class DrawingComponent implements AfterViewInit {
+export class DrawingComponent implements AfterViewInit, OnInit {
   @ViewChild('myCanvas', { static: true }) canvasRef: ElementRef;
   context: CanvasRenderingContext2D;
   drawing = false;
   drawingPolygon = false;
   drawingPoint = false;
-  polygon: { x: number; y: number }[] = [];
-  point: { x: number; y: number} ={
-    x: 0,
-    y: 0
-  };
+  polygon: Point[] = [];
+  polygons: Polygon[] = [];
+  point: Point ={x: 0,y: 0};
+  isPointInsidePolygon: boolean = false;
 
   constructor(private requestService: RequestService) {
   }
+
+  ngOnInit() {
+    this.requestService.getPolygons().subscribe(
+       (polygons) => {
+        this.polygons = polygons;
+        console.log(polygons) // обработка полученных полигонов
+       },
+       (error) => {
+         console.error('Error fetching polygons', error);
+       }
+    );
+   }
 
   ngAfterViewInit() {
     const canvas = this.canvasRef.nativeElement;
@@ -80,7 +92,7 @@ export class DrawingComponent implements AfterViewInit {
     this.context.clearRect(this.point.x - 5, this.point.y - 5, 8, 8);
     this.point = { x: x, y: y };
     this.context.beginPath();
-    this.context.arc(x, y, 3, 0, 2 * Math.PI); // Рисуем круг радиусом 5 пикселей
+    this.context.arc(x, y, 3, 0, 2 * Math.PI);
     this.context.fillStyle = 'red';
     this.context.fill();
   }
@@ -101,7 +113,10 @@ export class DrawingComponent implements AfterViewInit {
     console.log(this.point)
 
     this.requestService.checkPointInsidePolygon(this.polygon,this.point).subscribe(
-      (response) => console.log('Is Point inside Polygon checked successfully', response),
+      (response) => {
+        this.isPointInsidePolygon = Boolean(response);
+        console.log('Is Point inside Polygon checked successfully', response)
+      },
       (error) => console.error('Error checking is Point inside Polygon', error)
     );
   }
@@ -123,4 +138,36 @@ export class DrawingComponent implements AfterViewInit {
     this.drawingPoint = true;
     this.drawingPolygon = false;
   }
+
+  onPolygonSelect(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    const selectedPolygonId = selectElement.value;
+
+    const selectedPolygon = this.polygons.find((polygon) => {
+      return polygon.id === Number(selectedPolygonId);
+    });
+
+    console.log('Selected Polygon:', selectedPolygon);
+
+    if (selectedPolygon) {
+      this.drawSelectedPolygon(selectedPolygon);
+    } else {
+      console.log('Selected Polygon not found');
+    }
+  }
+
+   drawSelectedPolygon(polygon: Polygon) {
+    this.polygon = polygon.points
+    this.context.clearRect(0, 0, this.canvasRef.nativeElement.width, this.canvasRef.nativeElement.height);
+   
+    this.context.beginPath();
+   
+    this.context.moveTo(polygon.points[0].x, polygon.points[0].y);
+    for (let i = 1; i < polygon.points.length; i++) {
+       this.context.lineTo(polygon.points[i].x, polygon.points[i].y);
+    }
+   
+    this.context.closePath();
+    this.context.stroke();
+   }
 }
