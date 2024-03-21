@@ -10,5 +10,5 @@ export class AppComponent {
 }
 
 export const APP_CONFIG = {
-  API_URL: 'http://localhost:5001'
+  API_URL: '/api'
  };
