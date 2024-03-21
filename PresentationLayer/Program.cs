@@ -6,6 +6,7 @@ using DataLayer.Entities;
 using DataLayer.Interfaces;
 using DataLayer.Repository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using PresentationLayer.Middlewares;
 using PresentationLayer.Services;
 
@@ -22,7 +23,10 @@ namespace PresentationLayer
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(c =>
+            { 
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" }); 
+            });
             builder.Services.AddScoped<IPolygonService, PolygonService>();
             builder.Services.AddScoped<IStorageService, StorageService>();
             builder.Services.AddTransient<ErrorHandlerMiddleware>();
@@ -39,8 +43,8 @@ namespace PresentationLayer
 
             });
 
-            builder.Services.AddTransient<IRepository<Polygon>,PolygonRepository>();
-            builder.Services.AddTransient<IUnitOfWork,EfUnitOfWork>();
+            builder.Services.AddTransient<IRepository<Polygon>, PolygonRepository>();
+            builder.Services.AddTransient<IUnitOfWork, EfUnitOfWork>();
 
             builder.Services.AddCors(options =>
             {
@@ -56,13 +60,13 @@ namespace PresentationLayer
             var app = builder.Build();
 
             app.UseMiddleware<ErrorHandlerMiddleware>();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            
+            app.UseSwagger();
+            app.UseSwaggerUI(opt=>
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+                opt.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                opt.RoutePrefix = string.Empty;
+            });
 
             app.UseHttpsRedirection();
             app.UseCors("AllowAllOrigins");
