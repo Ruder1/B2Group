@@ -9,7 +9,7 @@ using System.Net;
 namespace PresentationLayer.Controllers
 {
     [ApiController]
-    [Route("[controller]/[action]")]
+    [Route("api/[controller]/[action]")]
     public class PolygonController : ControllerBase
     {
         private readonly ILogger<PolygonController> _logger;
