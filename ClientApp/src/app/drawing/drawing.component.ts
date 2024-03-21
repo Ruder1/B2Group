@@ -12,7 +12,7 @@ export class DrawingComponent implements AfterViewInit, OnInit {
   @ViewChild('myCanvas', { static: true }) canvasRef: ElementRef;
   context: CanvasRenderingContext2D;
   drawing = false;
-  drawingPolygon = false;
+  drawingPolygon = true;
   drawingPoint = false;
   polygon: Point[] = [];
   polygons: Polygon[] = [];
