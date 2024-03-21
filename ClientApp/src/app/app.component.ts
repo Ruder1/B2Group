@@ -8,3 +8,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'ClientApp';
 }
+
+export const APP_CONFIG = {
+  API_URL: 'http://localhost:5001'
+ };

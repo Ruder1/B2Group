@@ -12,3 +12,10 @@ services:
     build: 
       context: ClientApp
       dockerfile: Dockerfile
+
+  postgres:
+    image: postgres:latest
+
+
+volumes:
+ postgres_data:

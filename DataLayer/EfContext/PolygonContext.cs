@@ -14,6 +14,8 @@ namespace DataLayer.EfContext
 
         public PolygonContext(DbContextOptions<PolygonContext> options)
             : base(options)
-        {}
+        {
+            Database.Migrate();
+        }
     }
 }
