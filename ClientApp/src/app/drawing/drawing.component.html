@@ -1,0 +1,35 @@
+<!-- drawing.component.html -->
+<div style="display: flex; justify-content: space-evenly;">
+  <div style="margin-top: 20px;">
+    <canvas #myCanvas width="500" height="500" style="border: 3px solid #d3d3d3">
+      Ваш браузер не поддерживает элемент canvas.
+    </canvas>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
+    <button (click)="clearCanvas()" type="button" class="btn btn-primary">
+      Очистить
+    </button>
+    <button (click)="startDrawingPolygon()" type="button" class="btn btn-primary">
+      Нарисовать полигон
+    </button>
+    <button (click)="startDrawingPoint()" type="button" class="btn btn-primary">
+      Нарисовать точку
+    </button>
+    <button (click)="savePolygon()" type="button" class="btn btn-primary">Сохранить полигон</button>
+    <select (change)="onPolygonSelect($event)" class="form-select" aria-label="Default select example">
+      <option value="" selected>Выберите полигон</option>
+      <option *ngFor="let polygon of polygons" [value]="polygon.id">{{polygon.name}}</option>
+    </select>
+  </div>
+  <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
+    <button (click)="checkPointInsidePolygon()" type="button" class="btn btn-primary">Проверить точку <br>на вхождение в
+      полигон</button>
+    <div class="text-center text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3">
+      <p *ngIf="isPointInsidePolygon !== undefined" [style.color]="isPointInsidePolygon ? 'green' : 'red'"
+        class="text-center fs-5">
+        Точка {{ isPointInsidePolygon ? 'входит' : 'не входит' }} <br>в полигон.
+      </p>
+    </div>
+  </div>
+</div>

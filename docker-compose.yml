@@ -6,3 +6,16 @@ services:
     build:
       context: .
       dockerfile: PresentationLayer/Dockerfile
+      
+  frontend:
+    image: ${DOCKER_REGISTRY-}frontend
+    build: 
+      context: ClientApp
+      dockerfile: Dockerfile
+
+  postgres:
+    image: postgres:latest
+
+
+volumes:
+ postgres_data:
