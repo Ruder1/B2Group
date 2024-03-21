@@ -63,5 +63,11 @@ namespace PresentationLayer.Controllers
             var result = _polygonService.IsPointInside(modelDto.Point, modelDto.Polygon);
             return Ok(result);
         }
+
+        [HttpGet]
+        public IActionResult Test()
+        {
+            return Ok("asjmdlkjasd");
+        }
     }
 }
